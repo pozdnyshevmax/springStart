@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hellow</title>
+</head>
+<body>
+<h1>HELLOW, <span th:utext="${user.getLogin()}"></span>!</h1>
+<div>
+    <form method="POST" th:object="${user}">
+        <div>
+        login:
+            <span th:utext="${user.getLogin()}" th:value="*{pass}"></span>
+            <br>
+        <input type="text" th:field="*{pass}" />
+        <button>LOGIN</button>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>
