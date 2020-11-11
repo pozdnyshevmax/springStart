@@ -10,7 +10,7 @@
     <form method="POST" th:object="${user}">
         <div>
         login:
-            <span th:utext="${user.getLogin()}" th:value="*{pass}"></span>
+            <span th:utext="${user.getLogin()}" th:value="*{login}"></span>
             <br>
         <input type="text" th:field="*{pass}" />
         <button>LOGIN</button>

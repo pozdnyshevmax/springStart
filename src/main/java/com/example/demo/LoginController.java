@@ -38,19 +38,15 @@ public class LoginController {
     @PostMapping
     public String addUser(User user){
         String sesId = RequestContextHolder.currentRequestAttributes().getSessionId();
-        if(!cach.containsKey(sesId)) {
-            cach.put(sesId, user);
-            if(!users.containsKey(user.getLogin()))
-                users.put(user.getLogin(),user.getPass());
-            else if(!users.get(user.getLogin()).equals(user.getPass()))
-                return "hellowError";
-        }
-        else
-        {
-            if(!users.containsKey(user.getLogin()))
-                users.put(user.getLogin(),user.getPass());
-        }
-        return "hellowByName";
+       if(!users.containsKey(user.getLogin())){
+           cach.put(sesId, user);
+           users.put(user.getLogin(), user.getPass());
+           return "hellowByName";
+       } else {
+           if(users.get(user.getLogin()).equals(user.getPass()))
+               return "hellowByName";
+       }
+        return "hellowError";
     }
 
 }
