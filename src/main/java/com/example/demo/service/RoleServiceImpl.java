@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.model.Role;
 import com.example.demo.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
 
     @Override
-    public Set<String> findByRole(String role) {
+    public Role findByRole(String role) {
         return  roleRepository.findByRole(role);
     }
 

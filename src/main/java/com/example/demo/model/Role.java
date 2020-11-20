@@ -10,7 +10,6 @@ import javax.persistence.*;
 public class Role  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="role_id",insertable = false, updatable = false)
     private Long id = 0L;
 
 
@@ -24,6 +23,11 @@ public class Role  {
     public Role(Long id, String role) {
         this.id = id;
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return this.role;
     }
 
     public Role(){}

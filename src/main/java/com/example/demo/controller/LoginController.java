@@ -44,7 +44,7 @@ public class LoginController {
     @PostMapping("/registration")
     public String addUser(User user, BindingResult bindingResult){
         ModelAndView modelAndView = new ModelAndView();
-        if(userService.findByLogin(user.getLogin()) instanceof User)
+        if(userService.findByLogin(user.login) instanceof User)
             bindingResult.rejectValue("login", "error.user","this User already exist!");
         else {
            // user.setRole(roleService.findByRole("ADMIN"));
