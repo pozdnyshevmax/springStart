@@ -6,18 +6,14 @@ import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.naming.Binding;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class LoginController {
@@ -28,10 +24,30 @@ public class LoginController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping(value={ "/" , "/login"})
-    public String login(Model model){
+    public String loginPage(Model model){
         model.addAttribute("user", new User());
         return "login";
+    }
+
+    @GetMapping(value="/admin/adminHome")
+    public String adminHome(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User existUser = userService.findByLogin(authentication.getName());
+        model.addAttribute("adminMessage","HELlOW ADMIN enjoyer");
+        return "admin/adminHome";
+    }
+
+    @GetMapping(value="/user/userHome")
+    public String userHome(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User existUser = userService.findByLogin(authentication.getName());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("userMessage","HELlOW standart user");
+        return "user/userHome";
     }
 
 
@@ -44,14 +60,14 @@ public class LoginController {
     @PostMapping("/registration")
     public String addUser(User user, BindingResult bindingResult){
         ModelAndView modelAndView = new ModelAndView();
-        if(userService.findByLogin(user.login) instanceof User)
+        if(userService.findByLogin(user.getLogin()) instanceof User)
             bindingResult.rejectValue("login", "error.user","this User already exist!");
         else {
-           // user.setRole(roleService.findByRole("ADMIN"));
+            user.setRoles(userService.findByLogin("USER").getRoles());
             userService.saveUser(user);
             modelAndView.addObject("successMessage","Welcome! Now you are user!");
-            modelAndView.addObject("user",user);
         }
+        modelAndView.addObject("user", new User());
         return "registration";
     }
 

@@ -11,5 +11,7 @@ public interface UserService {
 
     public User findByLogin(String login);
 
-    public User saveUser(User user);
+    public void saveUser(User user);
+
+    public void initialSaveUser(Long id, String login, String pass, String role);
 }

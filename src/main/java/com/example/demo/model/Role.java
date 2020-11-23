@@ -13,6 +13,8 @@ public class Role  {
     private Long id = 0L;
 
 
+
+
     @Column(name = "role_name")
     private String role = "";
 
@@ -31,4 +33,12 @@ public class Role  {
     }
 
     public Role(){}
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

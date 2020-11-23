@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Set;
 
 
 @Service
@@ -28,17 +29,27 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByLogin(login);
     }
 
-   /* @Override
-    public List<User> findAllByRole(String role) {
-        return null;
-    }*/
 
     @Override
-    public User saveUser(User user) {
-        user.pass = passwordEncoder.encode(user.pass);
-        user.role = new HashSet<Role>();
-        user.role.add(roleRepository.findByRole("ADMIN"));
+    public void saveUser(User user) {
+        user.setPass(passwordEncoder.encode(user.getPass()));
+        user.setRoles(new HashSet<Role>());
+        user.getRoles().add(roleRepository.findByRole("USER"));
+        user.setActive(1);
         System.out.println(user);
-        return userRepository.save(user);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void initialSaveUser(Long id, String login, String pass, String role) {
+        User user = new User();
+        user.setLogin(login);
+        user.setPass(pass);
+        user.setPass(passwordEncoder.encode(user.getPass()));
+        user.setRoles(new HashSet<Role>());
+        user.getRoles().add(roleRepository.findByRole(role));
+        user.setActive(1);
+        System.out.println(user);
+        userRepository.save(user);
     }
 }
