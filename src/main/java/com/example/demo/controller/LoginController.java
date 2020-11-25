@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.User;
+import com.example.demo.repository.PostRepository;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class LoginController {
     private RoleService roleService;
 
     @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @GetMapping(value={ "/" , "/login"})
@@ -33,12 +37,13 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping(value="/admin/adminHome")
+    @GetMapping(value="/adminHome")
     public String adminHome(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User existUser = userService.findByLogin(authentication.getName());
         model.addAttribute("adminMessage","HELlOW ADMIN enjoyer");
-        return "admin/adminHome";
+        model.addAttribute("postList", postRepository.findAll());
+        return "/admin/adminHome";
     }
 
     @GetMapping(value="/user/userHome")

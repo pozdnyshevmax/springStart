@@ -3,6 +3,8 @@ package com.example.demo.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -27,6 +29,9 @@ public class User {
     @ManyToMany
     @JoinColumn(name="role_id", referencedColumnName = "role_id")
     private Set<Role> roles;
+
+    @OneToMany(cascade = CascadeType.ALL,targetEntity = Post.class)
+    private List<Post> posts = new ArrayList<Post>();
 
     public User(long id, String login, String pass, Set<Role> roles) {
         this.id = id;
@@ -76,4 +81,7 @@ public class User {
         this.roles = role;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
 }

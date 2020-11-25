@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="mainList"  >
+        <div><h1>POSTS!!</h1></div>
+        <div th:each="post : ${postList}" class="post">
+            <div><h3 th:text="${post.getTitle()}"></h3></div>
+            <div th:text="${post.getHtmlText()}"></div>
+            <span th:text="${post.getCreationDate()}"></span>
+        </div>
+</div>
+
+<form th:fragment="createPostForm"  >
+
+</form>
+
+</body>
+</html>
